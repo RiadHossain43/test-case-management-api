@@ -1,0 +1,10 @@
+<%- include('../shared/start'); %>
+  <%- include('../shared/container/main_container_start'); %>
+    <%- include('../shared/heading_section/index',{heading:"Account verification"}); %>
+      <%- include('../shared/greeting_section/index',{name:locals.name}); %>
+        <%- include('../shared/message_section/index',{message:`Welcome to Automatise test case management  platform. Please verify your
+          account.`})%>
+          <%- include('../shared/button/index',{linkText:"Verify",link:locals.verificationLink})%>
+            <%- include('../shared/closing_section/index'); %>
+              <%- include('../shared/container/main_container_end'); %>
+                <%- include('../shared/end'); %>

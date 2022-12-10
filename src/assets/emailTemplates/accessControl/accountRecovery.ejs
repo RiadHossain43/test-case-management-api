@@ -1,0 +1,12 @@
+<%- include('../shared/start'); %>
+  <%- include('../shared/container/main_container_start'); %>
+    <%- include('../shared/heading_section/index',{heading:"Account recovery"}); %>
+      <%- include('../shared/greeting_section/index',{name:locals.name}); %>
+        <%- include('../shared/message_section/index',{message:`If you requested a password reset, please click the link
+          below.`})%>
+          <%- include('../shared/button/index',{linkText:"Reset password",link:locals.recoveryLink})%>
+            <%- include('../shared/message_section/index',{message:`If you didn’t request a password reset, please
+              avoide this email and contact our support team for any security issue.`})%>
+              <%- include('../shared/closing_section/index'); %>
+                <%- include('../shared/container/main_container_end'); %>
+                  <%- include('../shared/end'); %>
