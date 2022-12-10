@@ -48,8 +48,7 @@ or
 ```
 yarn start:dev
 ```
-to run all the tests 
-To run a production environment run the comman
+To run all the tests
 
 ```
 npm test
