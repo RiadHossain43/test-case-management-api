@@ -31,6 +31,7 @@ const Schema = new mongoose.Schema(
         default: null,
       },
     },
+    refreshTokens: [String],
     recoveryToken: {
       type: String,
       default: "",

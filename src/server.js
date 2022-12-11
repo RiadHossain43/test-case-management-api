@@ -21,7 +21,7 @@ app.use(logRequest);
 // Init Schedules
 
 // Define Routes
-app.use("/api/v1/auth", require("./auth/routes"));
+app.use("/api/v1/accounts", require("./accounts/routes"));
 app.use("/api/v1/collections", require("./collections/routes"));
 app.use("/api/v1/test-cases", require("./testCases/routes"));
 app.use(errorHandler);
