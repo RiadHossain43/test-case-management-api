@@ -22,9 +22,12 @@ example env file contents
 
 ```
 MONGO_URI = mongodb://localhost:27017 or any remote instance.
-JWT_KEY = some-secure-key
+ACCESS_TOKEN_TTL = 2 days
+REFRESH_TOKEN_TTL = 5 days
+ACCESS_TOKEN_SECRET = secret
+REFRESH_TOKEN_SECRET = secret
 DATABASE = /test-management
-SYSTEM_EMAIL = hello@imssystems.tech
+SYSTEM_EMAIL = your.name@domain.com
 SEND_GRID_API_KEY= send-grid-api-key
 ```
 

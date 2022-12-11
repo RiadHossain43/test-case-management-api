@@ -6,19 +6,32 @@ class Auth extends Manager {
   constructor() {
     super();
   }
-  async authenticateIdentity(email, password) {
+  async authenticateIdentity({ email, password, userAgent }) {
     if (!email) throw new Error("Email is required.");
     if (!password) throw new Error("Password is required.");
     const user = await this.User.findOne({ email });
     if (!user) throw new Error("User not registered with this email.");
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new Error("Invalid credentials.");
-    const payload = { _id: user._id };
-    const accessToken = await Token.signToken(payload, process.env.JWT_KEY, {
-      expiresIn: "5 days",
-    });
+    const session = this.Session.create({ userRef: user._id, userAgent });
+    const accessTokenPayload = { userId: user._id };
+    const refreshTokenPayload = { sessionId: session._id };
+    const accessToken = await Token.signToken(
+      accessTokenPayload,
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: process.env.ACCESS_TOKEN_TTL,
+      }
+    );
+    const refreshToken = await Token.signToken(
+      refreshTokenPayload,
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: process.env.REFRESH_TOKEN_TTL,
+      }
+    );
     if (!accessToken) throw new Error("Access token could not be signed.");
-    return { accessToken };
+    return { accessToken, refreshToken };
   }
   async startRegistration(data) {
     if (!data) throw new Error("Data is required.");
@@ -26,13 +39,13 @@ class Auth extends Manager {
     let user = await this.User.findOne({ email });
     if (user)
       throw new Error("An account is already registerd with this email.");
-    let payload = {
+    let accessTokenPayload = {
       name,
       email,
       password,
     };
     const registrationToken = await Token.signToken(
-      payload,
+      accessTokenPayload,
       process.env.JWT_KEY,
       { expiresIn: 600 }
     );
@@ -96,10 +109,14 @@ class Auth extends Manager {
   async startAccountRecovery(email) {
     let user = await this.User.findOne({ email });
     if (!user) throw new Error("User not found.");
-    const payload = { _id: user._id };
-    const recoveryToken = await Token.signToken(payload, process.env.JWT_KEY, {
-      expiresIn: 600,
-    });
+    const accessTokenPayload = { _id: user._id };
+    const recoveryToken = await Token.signToken(
+      accessTokenPayload,
+      process.env.JWT_KEY,
+      {
+        expiresIn: 600,
+      }
+    );
     if (!recoveryToken) throw new Error("Recovery token could not be signed.");
     let recoveryLink = `http://localhost:3000/activate-account/${recoveryToken}`;
     await sendMail("account-recovery", email, {

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { metaData } = require("./templates/metaData");
 const { testTypes } = require("./templates/testTypes");
-
+const { softDeletePlugin } = require("./plugins/softDelete");
 const Schema = new mongoose.Schema(
   {
     collectionRef: {
@@ -32,4 +32,5 @@ const Schema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+Schema.plugin(softDeletePlugin);
 module.exports = mongoose.model("test_cases", Schema);
