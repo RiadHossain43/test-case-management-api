@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const { metaData } = require("./templates/metaData");
-const { testTypes, permissions } = require("./templates/permissions");
-
+const { permissions } = require("./templates/permissions");
+const { role } = require("./templates/roles");
 const Schema = new mongoose.Schema(
   {
     workspaceRef: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "workspaces",
+      
     },
     userRef: {
       type: mongoose.Schema.Types.ObjectId,
@@ -16,7 +17,7 @@ const Schema = new mongoose.Schema(
     },
     permissions: {
       type: mongoose.Schema.Types.Mixed,
-      enum: [permissions],
+      enum: [permissions, role],
     },
     metaData,
   },

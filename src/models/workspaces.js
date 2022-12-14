@@ -4,11 +4,6 @@ const { accessManagementTypes } = require("./templates/accessManagementTypes");
 const { metaData } = require("./templates/metaData");
 const Schema = new mongoose.Schema(
   {
-    collectionRef: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "collections",
-    },
     accessManagementType: {
       type: String,
       enum: [
@@ -23,4 +18,4 @@ const Schema = new mongoose.Schema(
   { timestamps: true }
 );
 Schema.plugin(softDeletePlugin);
-module.exports = mongoose.model("test_cases", Schema);
+module.exports = mongoose.model("workspaces", Schema);

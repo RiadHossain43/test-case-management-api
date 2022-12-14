@@ -22,6 +22,7 @@ app.use(logRequest);
 
 // Define Routes
 app.use("/api/v1/accounts", require("./accounts/routes"));
+app.use("/api/v1/workspaces", require("./workspaces/routes"));
 app.use("/api/v1/collections", require("./collections/routes"));
 app.use("/api/v1/test-cases", require("./testCases/routes"));
 app.use(errorHandler);

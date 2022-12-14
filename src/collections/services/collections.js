@@ -5,6 +5,7 @@ class Collections extends Manager {
   }
   async createCollection(data) {
     const collection = new this.Collections({
+      workspaceRef: data.workspaceRef,
       metaData: {
         name: data.name,
         description: data.description,
