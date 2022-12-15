@@ -1,4 +1,6 @@
 const { TestCases } = require("../services");
+const { StatusCodes } = require("http-status-codes");
+
 exports.createTestCase = async (req, res, next) => {
   try {
     const testCasesService = new TestCases();
@@ -7,7 +9,7 @@ exports.createTestCase = async (req, res, next) => {
       author: "6388aba3a2100c3984e30a32",
     };
     const testCase = await testCasesService.createTestCase(data);
-    return res.status(200).json({
+    return res.status(StatusCodes.CREATED).json({
       message: "Test case created.",
       details: { testCase },
     });
@@ -19,7 +21,7 @@ exports.listTestCases = async (req, res, next) => {
   try {
     const testCasesService = new TestCases();
     const testCases = await testCasesService.listTestCasess({});
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Test cases retrived.",
       details: { testCases },
     });
@@ -33,7 +35,7 @@ exports.getTestCase = async (req, res, next) => {
     const testCase = await testCasesService.getTestCase({
       _id: req.params.id,
     });
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Test case retrived.",
       details: { testCase },
     });
@@ -48,7 +50,7 @@ exports.editTestCase = async (req, res, next) => {
       req.params.id,
       req.body
     );
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Test case updated.",
       details: { testCase },
     });
@@ -59,10 +61,8 @@ exports.editTestCase = async (req, res, next) => {
 exports.softRemoveTestCase = async (req, res, next) => {
   try {
     const testCasesService = new TestCases();
-    const testCase = await testCasesService.softRemoveTestCase(
-      req.params.id
-    );
-    return res.status(200).json({
+    const testCase = await testCasesService.softRemoveTestCase(req.params.id);
+    return res.status(StatusCodes.OK).json({
       message: "Test case moved to trash.",
       details: { testCase },
     });
@@ -74,7 +74,7 @@ exports.restoreTestCase = async (req, res, next) => {
   try {
     const testCasesService = new TestCases();
     const response = await testCasesService.restoreTestCase(req.params.id);
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Test case restored.",
       details: { response },
     });
@@ -85,10 +85,8 @@ exports.restoreTestCase = async (req, res, next) => {
 exports.hardRemoveTestCase = async (req, res, next) => {
   try {
     const testCasesService = new TestCases();
-    const testCase = await testCasesService.hardRemoveTestCase(
-      req.params.id
-    );
-    return res.status(200).json({
+    const testCase = await testCasesService.hardRemoveTestCase(req.params.id);
+    return res.status(StatusCodes.OK).json({
       message: "Test case removed.",
       details: { testCase },
     });

@@ -1,5 +1,5 @@
 const { Auth } = require("../services");
-
+const { StatusCodes } = require("http-status-codes");
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -9,7 +9,7 @@ exports.login = async (req, res, next) => {
       password,
       userAgent: req.get("user-agent") || "",
     });
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Login successfull.",
       details: { ...authResponse },
     });

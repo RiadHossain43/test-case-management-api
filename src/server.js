@@ -8,6 +8,7 @@ const { logRequest } = require("./common/middleware/logRequest");
 const {
   actionOnUnhandled,
 } = require("./common/helper/error/unhandledRejections");
+const { formatResponse } = require("./common/middleware/formatResponse");
 
 // Connect Database
 connectDataBase();
@@ -17,6 +18,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cors);
 app.use(logRequest);
+app.use(formatResponse);
 
 // Init Schedules
 

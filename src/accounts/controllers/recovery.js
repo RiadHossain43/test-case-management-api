@@ -1,10 +1,11 @@
 const { Recovery } = require("../services");
+const { StatusCodes } = require("http-status-codes");
 
 exports.startAccountRecovery = async (req, res, next) => {
   try {
     const recoveryService = new Recovery();
     const recovery = await recoveryService.startAccountRecovery(req.body.email);
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: "Recovery email sent for varification.",
       details: { ...recovery },
     });
@@ -17,7 +18,7 @@ exports.recoverAccount = async (req, res, next) => {
     const token = req.header("x-recovery-token");
     const recoveryService = new Recovery();
     const user = await recoveryService.recoverAccount(token, req.body.password);
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: "Account recovered.",
       details: { user },
     });

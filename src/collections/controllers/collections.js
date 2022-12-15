@@ -1,4 +1,5 @@
 const { Collections } = require("../services");
+const { StatusCodes } = require("http-status-codes");
 exports.createCollection = async (req, res, next) => {
   try {
     const collectionService = new Collections();
@@ -7,7 +8,7 @@ exports.createCollection = async (req, res, next) => {
       author: "6388aba3a2100c3984e30a32",
     };
     const collection = await collectionService.createCollection(data);
-    return res.status(200).json({
+    return res.status(StatusCodes.CREATED).json({
       message: "Collection created.",
       details: { collection },
     });
@@ -19,7 +20,7 @@ exports.listCollections = async (req, res, next) => {
   try {
     const collectionService = new Collections();
     const collections = await collectionService.listCollections({});
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Collections retrived.",
       details: { collections },
     });
@@ -33,7 +34,7 @@ exports.getCollection = async (req, res, next) => {
     const collection = await collectionService.getCollection({
       _id: req.params.id,
     });
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Collection retrived.",
       details: { collection },
     });
@@ -48,7 +49,7 @@ exports.editCollection = async (req, res, next) => {
       req.params.id,
       req.body
     );
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Collection updated.",
       details: { collection },
     });
@@ -62,7 +63,7 @@ exports.softRemoveCollection = async (req, res, next) => {
     const collection = await collectionService.softRemoveCollection(
       req.params.id
     );
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Collection moved to trash.",
       details: { collection },
     });
@@ -74,7 +75,7 @@ exports.restoreCollection = async (req, res, next) => {
   try {
     const collectionService = new Collections();
     const response = await collectionService.restoreCollection(req.params.id);
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Collection restored.",
       details: { response },
     });
@@ -88,7 +89,7 @@ exports.hardRemoveCollection = async (req, res, next) => {
     const collection = await collectionService.hardRemoveCollection(
       req.params.id
     );
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: "Collection removed.",
       details: { collection },
     });
