@@ -1,11 +1,13 @@
 const { Manager } = require("./manager");
+const { APIError } = require("../../common/helper/error/apiError");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 class Workspaces extends Manager {
   constructor() {
     super();
   }
   async createWorkspace(data) {
     const workspace = new this.Workspaces({
-      accessManagementType:data.accessManagementType,
+      accessManagementType: data.accessManagementType,
       metaData: {
         name: data.name,
         description: data.description,
@@ -28,7 +30,12 @@ class Workspaces extends Manager {
   }
   async getWorkspace(query) {
     let exist = await this.isExisting(query);
-    if (!exist.status) throw new Error("Workspace not found.");
+    if (!exist.status)
+      throw new APIError(
+        ReasonPhrases.NOT_FOUND,
+        StatusCodes.NOT_FOUND,
+        "No workspace found with the given query."
+      );
     return exist.data;
   }
   async listWorkspaces(query) {

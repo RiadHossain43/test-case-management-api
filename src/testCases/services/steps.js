@@ -1,5 +1,8 @@
 const { TestCases } = require("./testCases");
 const { changePositionInArray } = require("../../common/helper/algorithms");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { APIError } = require("../../common/helper/error/apiError");
+
 class Steps extends TestCases {
   constructor() {
     super();
@@ -16,7 +19,12 @@ class Steps extends TestCases {
   async changeStepPosition(id, data) {
     let testCase = await this.getTestCase({ _id: id });
     const oldIndex = testCase.steps.findIndex((step) => step._id === data.id);
-    if (!oldIndex) throw new Error("Step not found.");
+    if (!oldIndex)
+      throw new APIError(
+        StatusCodes.NOT_FOUND,
+        ReasonPhrases.NOT_FOUND,
+        "Step not found with id:" + data.id
+      );
     if (data.newIndex > testCase.steps.length - 1)
       data.newIndex = testCase.steps.length - 1;
     testCase.steps = changePositionInArray(

@@ -1,4 +1,5 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { APIError } = require("./apiError");
 class ErroHandler {
   constructor(error) {
     this.error = error;
@@ -13,6 +14,11 @@ class ErroHandler {
       "*****************************************************************"
     );
   }
-  prepareHTTPResponse() {}
+  isTrustedAPIError() {
+    if (this.error instanceof APIError) {
+      return this.error.isOperational;
+    }
+    return false;
+  }
 }
 module.exports = ErroHandler;

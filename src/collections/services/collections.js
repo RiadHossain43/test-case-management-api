@@ -1,4 +1,6 @@
+const { APIError } = require("../../common/helper/error/apiError");
 const { Manager } = require("./manager");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 class Collections extends Manager {
   constructor() {
     super();
@@ -28,7 +30,12 @@ class Collections extends Manager {
   }
   async getCollection(query) {
     let exist = await this.isExisting(query);
-    if (!exist.status) throw new Error("Collection not found.");
+    if (!exist.status)
+      throw new APIError(
+        StatusCodes.NOT_FOUND,
+        ReasonPhrases.NOT_FOUND,
+        "No collection found with the givent query."
+      );
     return exist.data;
   }
   async listCollections(query) {

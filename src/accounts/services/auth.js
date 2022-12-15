@@ -1,16 +1,33 @@
 const { Manager } = require("./manager");
 const bcrypt = require("bcryptjs");
 const { Token } = require("../../common/helper");
+const { APIError } = require("../../common/helper/error/apiError");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 class Auth extends Manager {
   constructor() {
     super();
   }
   async authenticateIdentity({ email, password, userAgent }) {
-    if (!email || !password) throw new Error("Email & Password are required.");
+    if (!email || !password)
+      throw new APIError(
+        StatusCodes.BAD_REQUEST,
+        ReasonPhrases.BAD_REQUEST,
+        "Email & Password are required."
+      );
     const user = await this.User.findOne({ email });
-    if (!user) throw new Error("User not registered with this email.");
+    if (!user)
+      throw new APIError(
+        StatusCodes.NOT_FOUND,
+        ReasonPhrases.NOT_FOUND,
+        "User not registered with this email."
+      );
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error("Invalid credentials.");
+    if (!isMatch)
+      throw new APIError(
+        StatusCodes.BAD_REQUEST,
+        ReasonPhrases.BAD_REQUEST,
+        "Invalid credentials."
+      );
     await this.Session.create({ userRef: user._id, userAgent });
     const newTokenPair = await this.getTokenPair(
       { userId: user._id },
@@ -50,7 +67,12 @@ class Auth extends Manager {
     /**
      * PROBLEM: what if user is deleted and tokens are still valid.
      */
-    if (!refreshToken) throw new Error("No refresh token found.");
+    if (!refreshToken)
+      throw new APIError(
+        StatusCodes.BAD_REQUEST,
+        ReasonPhrases.BAD_REQUEST,
+        "No refresh token found."
+      );
     const foundUser = await this.User.findOne({ refreshToken });
     /**
      * Detected refresh token reuse.
@@ -62,7 +84,11 @@ class Auth extends Manager {
         process.env.REFRESH_TOKEN_SECRET
       );
       if (!validationResponse.valid)
-        throw new Error("Forbidden|| Invalid refresh token");
+        throw new APIError(
+          StatusCodes.FORBIDDEN,
+          ReasonPhrases.FORBIDDEN,
+          "Invalid refresh token"
+        );
       console.log(
         "Refresh token reuse atempt detected, protecting hacked user..."
       );
@@ -73,7 +99,11 @@ class Auth extends Manager {
       const result = await hackedUser.save();
       console.log("Printing user information...");
       console.log(result);
-      throw new Error("Forbidden!! Reuse of refresh token.");
+      throw new APIError(
+        StatusCodes.FORBIDDEN,
+        ReasonPhrases.FORBIDDEN,
+        "Reuse of refresh token."
+      );
     }
 
     /**
@@ -96,7 +126,11 @@ class Auth extends Manager {
       !validationResponse.valid ||
       foundUser._id !== !validationResponse.valid.decoded.userId
     )
-      throw new Error("Forbidden!! User id don't match with refresh token.");
+      throw new APIError(
+        StatusCodes.FORBIDDEN,
+        ReasonPhrases.FORBIDDEN,
+        "User id don't match with refresh token."
+      );
 
     /**
      * Refresh token passed all checks and is still valid.
