@@ -1,5 +1,8 @@
 module.exports = {
   ...require("./token"),
   ...require("./validation"),
-  ...require("./deepOmit")
+  ...require("./deepOmit"),
+  ...require("./template"),
+  ...require("./filters"),
+  ...require("./dateUtils"),
 };

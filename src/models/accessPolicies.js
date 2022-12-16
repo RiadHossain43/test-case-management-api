@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { metaData } = require("./templates/metaData");
 const { permissions } = require("./templates/permissions");
 const { role } = require("./templates/roles");
 const Schema = new mongoose.Schema(
@@ -19,7 +18,6 @@ const Schema = new mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       enum: [permissions, role],
     },
-    metaData,
   },
   { timestamps: true }
 );

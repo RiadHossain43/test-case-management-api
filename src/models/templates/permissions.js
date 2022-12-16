@@ -6,7 +6,7 @@ const { omitDeep } = require("../../common/helper");
  * controlling places. Apis or actions that don't require any authoretive process are out
  * of this scope and open to all users to consume.
  */
-let permissions = {
+const permissions = {
   workspace: {
     description: "This will enable admin permissions on work space",
     canManageUsers: {

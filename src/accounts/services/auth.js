@@ -10,22 +10,22 @@ class Auth extends Manager {
   async authenticateIdentity({ email, password, userAgent }) {
     if (!email || !password)
       throw new APIError(
-        StatusCodes.BAD_REQUEST,
         ReasonPhrases.BAD_REQUEST,
+        StatusCodes.BAD_REQUEST,
         "Email & Password are required."
       );
     const user = await this.User.findOne({ email });
     if (!user)
       throw new APIError(
-        StatusCodes.NOT_FOUND,
         ReasonPhrases.NOT_FOUND,
+        StatusCodes.NOT_FOUND,
         "User not registered with this email."
       );
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       throw new APIError(
-        StatusCodes.BAD_REQUEST,
         ReasonPhrases.BAD_REQUEST,
+        StatusCodes.BAD_REQUEST,
         "Invalid credentials."
       );
     await this.Session.create({ userRef: user._id, userAgent });
@@ -69,8 +69,8 @@ class Auth extends Manager {
      */
     if (!refreshToken)
       throw new APIError(
-        StatusCodes.BAD_REQUEST,
         ReasonPhrases.BAD_REQUEST,
+        StatusCodes.BAD_REQUEST,
         "No refresh token found."
       );
     const foundUser = await this.User.findOne({ refreshToken });
@@ -85,8 +85,8 @@ class Auth extends Manager {
       );
       if (!validationResponse.valid)
         throw new APIError(
-          StatusCodes.FORBIDDEN,
           ReasonPhrases.FORBIDDEN,
+          StatusCodes.FORBIDDEN,
           "Invalid refresh token"
         );
       console.log(
@@ -100,8 +100,8 @@ class Auth extends Manager {
       console.log("Printing user information...");
       console.log(result);
       throw new APIError(
-        StatusCodes.FORBIDDEN,
         ReasonPhrases.FORBIDDEN,
+        StatusCodes.FORBIDDEN,
         "Reuse of refresh token."
       );
     }
