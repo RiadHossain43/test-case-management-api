@@ -11,7 +11,7 @@ const {
 const { formatResponse } = require("./common/middleware/formatResponse");
 
 // Connect Database
-connectDataBase();
+// connectDataBase();
 
 // Init Middleware
 app.use(express.json({ limit: "10mb" }));
