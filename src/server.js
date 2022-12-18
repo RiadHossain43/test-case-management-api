@@ -11,7 +11,7 @@ const {
 const { formatResponse } = require("./common/middleware/formatResponse");
 
 // Connect Database
-// connectDataBase();
+connectDataBase();
 
 // Init Middleware
 app.use(express.json({ limit: "10mb" }));
@@ -24,10 +24,7 @@ app.use(formatResponse);
 
 // Define Routes
 app.use("/", (req, res) =>
-  res.status(200).json({ message: "Active", details: {
-    mongo:process.env.MONGO_URI,
-    
-  } })
+  res.status(200).json({ message: "Active", details: {} })
 );
 app.use("/api/v1/accounts", require("./accounts/routes"));
 app.use("/api/v1/workspaces", require("./workspaces/routes"));
