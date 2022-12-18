@@ -24,7 +24,10 @@ app.use(formatResponse);
 
 // Define Routes
 app.use("/", (req, res) =>
-  res.status(200).json({ message: "Active", details: {} })
+  res.status(200).json({ message: "Active", details: {
+    mongo:process.env.MONGO_URI,
+    
+  } })
 );
 app.use("/api/v1/accounts", require("./accounts/routes"));
 app.use("/api/v1/workspaces", require("./workspaces/routes"));
