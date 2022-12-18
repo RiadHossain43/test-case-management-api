@@ -23,7 +23,7 @@ app.use(formatResponse);
 // Init Schedules
 
 // Define Routes
-app.use("/", (req, res) =>
+app.get("/", (req, res) =>
   res.status(200).json({ message: "Active", details: {} })
 );
 app.use("/api/v1/accounts", require("./accounts/routes"));
