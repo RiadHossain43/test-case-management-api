@@ -31,7 +31,7 @@ class WorkAccess extends Workspaces {
       throw new APIError(
         ReasonPhrases.NOT_FOUND,
         StatusCodes.NOT_FOUND,
-        "No access policy found with the givent query."
+        "No access policy found with the given query."
       );
     return exist.data;
   }

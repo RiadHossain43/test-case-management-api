@@ -6,7 +6,7 @@ exports.startAccountRecovery = async (req, res, next) => {
     const recoveryService = new Recovery();
     const recovery = await recoveryService.startAccountRecovery(req.body.email);
     res.status(StatusCodes.OK).json({
-      message: "Recovery email sent for varification.",
+      message: "Recovery email sent for verification.",
       details: { ...recovery },
     });
   } catch (error) {

@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "backend for a test case managment platform",
   "main": "server.js",
-  "engines": {
-    "node": "16.x"
-  },
   "scripts": {
     "test": "mocha ./src/tests/**/*.js",
     "start": "node ./src/server.js",

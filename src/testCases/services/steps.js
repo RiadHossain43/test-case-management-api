@@ -21,8 +21,8 @@ class Steps extends TestCases {
     const oldIndex = testCase.steps.findIndex((step) => step._id === data.id);
     if (!oldIndex)
       throw new APIError(
-        StatusCodes.NOT_FOUND,
         ReasonPhrases.NOT_FOUND,
+        StatusCodes.NOT_FOUND,
         "Step not found with id:" + data.id
       );
     if (data.newIndex > testCase.steps.length - 1)

@@ -44,7 +44,7 @@ class Auth extends Manager {
      */
     user.refreshTokens = [...user.refreshTokens, newTokenPair.refreshToken];
     await user.save();
-    return { ...newTokenPair };
+    return { ...newTokenPair, user: { _id: user._id, name: user.name } };
   }
   async getTokenPair(accessTokenPayload, refreshTokenPayload) {
     const accessToken = await Token.signToken(

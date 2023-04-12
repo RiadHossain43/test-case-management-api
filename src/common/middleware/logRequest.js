@@ -7,8 +7,9 @@ exports.logRequest = async (req, res, next) => {
       " Host:",
       req.headers.origin,
       " End point:",
-      req.originalUrl
+      req.originalUrl,
     );
+    console.log("request body: ", req.body)
   }
   next();
 };

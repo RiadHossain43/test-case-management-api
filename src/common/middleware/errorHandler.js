@@ -4,7 +4,6 @@ const errorHandler = async (err, req, res, next) => {
   const errorHandler = new ErroHandler(err);
   errorHandler.handleError();
   if (errorHandler.isTrustedAPIError()) {
-    console.log();
     res.status(err.httpStatusCode).json({
       message: err.name,
       details: {
@@ -14,6 +13,9 @@ const errorHandler = async (err, req, res, next) => {
   } else {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+      details: {
+        description: "This is not a trusted operational API Error. Please contact API team for troubleshooting this issue."
+      }
     });
     console.log("Restarting gracefully...");
     process.exit(1);

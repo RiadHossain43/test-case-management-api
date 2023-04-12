@@ -1,4 +1,6 @@
+const { APIError } = require("../../common/helper/error/apiError");
 const { Manager } = require("./manager");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 class TestCases extends Manager {
   constructor() {
     super();
@@ -30,7 +32,7 @@ class TestCases extends Manager {
   }
   async getTestCase(query) {
     let exist = await this.isExisting(query);
-    if (!exist.status) throw new Error("Test case not found.");
+    if (!exist.status) throw new APIError(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND, "Test case not found.");
     return exist.data;
   }
   async listTestCasess(query) {

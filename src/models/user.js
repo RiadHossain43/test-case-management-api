@@ -26,7 +26,7 @@ const Schema = new mongoose.Schema(
         enum: ["Verified", "Pending"],
         default: "Pending",
       },
-      varificationDate: {
+      verificationDate: {
         type: Date,
         default: null,
       },

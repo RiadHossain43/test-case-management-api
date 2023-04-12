@@ -32,8 +32,8 @@ class Collections extends Manager {
     let exist = await this.isExisting(query);
     if (!exist.status)
       throw new APIError(
-        StatusCodes.NOT_FOUND,
         ReasonPhrases.NOT_FOUND,
+        StatusCodes.NOT_FOUND,
         "No collection found with the givent query."
       );
     return exist.data;
